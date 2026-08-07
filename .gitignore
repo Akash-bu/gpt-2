@@ -5,3 +5,36 @@
 *.pkl
 .idea/
 out/
+
+# Python virtual environments
+.venv/
+venv/
+env/
+ENV/
+cs224n_dfp/
+
+# Local datasets
+data/
+
+# Model checkpoints and large binary artifacts
+checkpoints/
+*.ckpt
+*.pth
+*.bin
+*.safetensors
+*.onnx
+
+# Large dataset/array formats
+*.npy
+*.npz
+*.parquet
+*.arrow
+*.h5
+*.hdf5
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
