@@ -13,7 +13,7 @@ class CausalSelfAttention(nn.Module):
     self.all_head_size = self.num_attention_heads * self.attention_head_size
 
     # Initialize the linear transformation layers for key, value, query.
-    self.query = nn.Linear(config.hidden_size, self.all_head_size)
+    self.query = nn.Linear(config.hidden_size, self.all_head_size) #768, 768
     self.key = nn.Linear(config.hidden_size, self.all_head_size)
     self.value = nn.Linear(config.hidden_size, self.all_head_size)
     # This dropout is applied to normalized attention scores following the original
@@ -32,9 +32,27 @@ class CausalSelfAttention(nn.Module):
     return proj
 
   def attention(self, key, query, value, attention_mask):
+    attention_scores = torch.matmul(query, key.transpose(-1, -2)) 
+    attention_scores = attention_scores / torch.sqrt(torch.tensor(self.attention_head_size)) 
 
-    ### YOUR CODE HERE
-    raise NotImplementedError
+    seq_len = query.size(-2) 
+
+    casual_mask = torch.tril(torch.ones(seq_len, seq_len, device=query.device, dtype = torch.bool)) 
+    #This creates a lower-triangular matrix 
+
+    attention_scores = attention_scores.masked_fill(
+      ~casual_mask.view(1, 1, seq_len, seq_len),
+      torch.finfo(attention_scores.dtype).min
+    )
+
+    attention_scores = attention_scores + attention_mask 
+    attention_prob = torch.softmax(attention_scores, dim = -1) 
+    attention_prob = self.dropout(attention_prob) 
+
+    attention_output = torch.matmul(attention_prob, value) 
+
+    #Combine the attention heads [batch, heads, seq_len, head_size] to [batch, seq_len, heads * head_size]
+    return rearrange(attention_output, 'b h t d -> b t (h d)')
 
 
   def forward(self, hidden_states, attention_mask):

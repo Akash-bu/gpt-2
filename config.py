@@ -188,6 +188,41 @@ class PretrainedConfig(object):
 class GPT2Config(PretrainedConfig):
   model_type = "gpt"
 
+  """
+  These are configuration parameters for a GPT-style Transformer model:
+
+- `vocab_size=50257`  
+  Number of distinct tokens the model recognizes. The input embedding and output prediction layers contain one entry per token.
+
+- `hidden_size=768`  
+  Width of each token’s internal representation. Every token is represented by a vector of 768 numbers throughout the Transformer.
+
+- `num_hidden_layers=12`  
+  Number of stacked Transformer blocks. More layers generally provide greater modeling capacity but require more computation and memory.
+
+- `num_attention_heads=12`  
+  Each attention layer splits its work across 12 heads. With a hidden size of 768, each head has dimension `768 / 12 = 64`.
+
+- `intermediate_size=3072`  
+  Width of the feed-forward network inside each Transformer block. Here it is four times the hidden size: `4 × 768`.
+
+- `hidden_act="gelu"`  
+  Activation function used in the feed-forward networks. GELU is a smooth nonlinear function commonly used in Transformer models.
+
+- `hidden_dropout_prob=0.1`  
+  During training, 10% of selected hidden activations are randomly set to zero. This helps reduce overfitting. Dropout is disabled during inference.
+
+- `attention_probs_dropout_prob=0.1`  
+  Applies 10% dropout to attention weights during training, encouraging the model not to rely too heavily on particular token relationships.
+
+- `max_position_embeddings=1024`  
+  The model has positional embeddings for up to 1,024 positions, so its standard maximum context length is 1,024 tokens.
+
+- `type_vocab_size=2`  
+  Number of token-type—or segment—embedding categories. This supports labeling tokens as belonging to segment 0 or segment 1, typically used for paired inputs. GPT-style models often do not need this feature.
+  
+  """
+
   def __init__(
           self,
           vocab_size=50257,
