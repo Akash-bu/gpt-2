@@ -38,3 +38,7 @@ checkpoints/
 *.tar.gz
 *.tgz
 *.7z
+
+md/
+
+checkpoints/

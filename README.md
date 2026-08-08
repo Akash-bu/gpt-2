@@ -1,7 +1,6 @@
-# CS 224N Default Final Project: Build GPT-2
+# Build GPT-2
 
-This is the default final project for the Stanford CS 224N class. Please refer to the project handout on the course
-website for detailed instructions and an overview of the codebase.
+I cloned the repo from Stanford CS 224N and implemented a custom gpt-2 model and used in for classifcation tasks. 
 
 This project comprises two parts. In the first part, you will implement some important components of the GPT-2 model to
 better understand its architecture.
@@ -50,3 +49,14 @@ project [Implement BERT](https://web.stanford.edu/class/archive/cs/cs224n/cs224n
 
 Parts of the code are from the [`transformers`](https://github.com/huggingface/transformers)
 library ([Apache License 2.0](./LICENSE)).
+
+## Sentiment-classification results
+
+Default configuration: `last-linear-layer`, batch size `8`, learning rate `1e-3`, hidden dropout `0.3`, and `10` epochs.
+
+| Dataset | Best epoch | Train loss | Train accuracy | Dev accuracy | Final checkpoint dev accuracy |
+|---|---:|---:|---:|---:|---:|
+| SST | 7 | 1.416 | 0.494 | 0.466 | 0.466 |
+| CFIMDB | 9 | 0.456 | 0.872 | 0.890 | 0.890 |
+
+Epoch numbers are reported exactly as logged by the training script (zero-based). The final evaluation loaded the best saved checkpoint for each dataset.

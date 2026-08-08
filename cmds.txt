@@ -1,0 +1,5 @@
+python3 classifier.py –fine-tune-mode last-linear-layer –batch_size BATCH_SIZE –lr LR hidden_dropout_prob=RATE –epochs=NUM_EPOCHS
+
+full-model
+
+python3 -c "import torch; print(torch.cuda.is_available()); print(torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'No CUDA GPU detected')"
