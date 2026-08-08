@@ -1,6 +1,6 @@
 # Build GPT-2
 
-I cloned the repo from Stanford CS 224N and implemented a custom gpt-2 model and used in for classifcation tasks. 
+I cloned the repo from Stanford CS 224N and implemented a custom gpt-2 model and used it for classifcation as a downstream task. 
 
 This project comprises two parts. In the first part, you will implement some important components of the GPT-2 model to
 better understand its architecture.
@@ -60,3 +60,21 @@ Default configuration: `last-linear-layer`, batch size `8`, learning rate `1e-3`
 | CFIMDB | 9 | 0.456 | 0.872 | 0.890 | 0.890 |
 
 Epoch numbers are reported exactly as logged by the training script (zero-based). The final evaluation loaded the best saved checkpoint for each dataset.
+
+## Full-model fine-tuning
+
+Configuration: full-model fine-tuning, batch size `8`, learning rate `1e-5`, hidden dropout `0.3`, and `10` epochs.
+
+| Dataset | Best epoch | Train loss | Train accuracy | Dev accuracy | Final checkpoint dev accuracy |
+|---|---:|---:|---:|---:|---:|
+| SST | 6 | 1.084 | 0.587 | 0.502 | 0.502 |
+| CFIMDB | 7 | 0.023 | 0.998 | 0.971 | 0.971 |
+
+## Full-model fine-tuning with split learning rates
+
+Configuration: full-model fine-tuning, SST batch size `16`, CFIMDB batch size `8`, GPT learning rate `1e-5`, classifier learning rate `1e-3`, hidden dropout `0.1`, and `10` epochs.
+
+| Dataset | Best dev accuracy | Final checkpoint dev accuracy |
+|---|---:|---:|
+| SST | 0.510 | 0.510 |
+| CFIMDB | 0.984 | 0.984 |

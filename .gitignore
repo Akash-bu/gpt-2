@@ -42,3 +42,7 @@ checkpoints/
 md/
 
 checkpoints/
+
+cmds.txt
+
+train_stats.txt

@@ -264,7 +264,14 @@ def train(args):
   model = model.to(device)
 
   lr = args.lr
-  optimizer = AdamW(model.parameters(), lr=lr)
+  optimizer = AdamW([
+    {
+      "params": model.gpt.parameters(), "lr": 1e-5
+    },
+    {
+      "params": model.classifier.parameters(), "lr": 1e-3
+    }
+  ])
   best_dev_acc = 0
 
   # Run for the specified number of epochs.
@@ -349,9 +356,9 @@ def get_args():
                       choices=('last-linear-layer', 'full-model'), default="last-linear-layer")
   parser.add_argument("--use_gpu", action='store_true')
 
-  parser.add_argument("--batch_size", help='sst: 64, cfimdb: 8 can fit a 12GB GPU', type=int, default=8)
+  parser.add_argument("--batch_size", help='sst: 64, cfimdb: 8 can fit a 12GB GPU', type=int, default=64)
   parser.add_argument("--hidden_dropout_prob", type=float, default=0.3)
-  parser.add_argument("--lr", type=float, help="learning rate, default lr for 'pretrain': 1e-3, 'finetune': 1e-5",
+  parser.add_argument("--lr", type=float, help="learning rate; recommended: 1e-3 for last-linear-layer, 1e-5 for full-model",
                       default=1e-3)
 
   args = parser.parse_args()
