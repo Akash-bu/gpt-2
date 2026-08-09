@@ -78,3 +78,19 @@ Configuration: full-model fine-tuning, SST batch size `16`, CFIMDB batch size `8
 |---|---:|---:|
 | SST | 0.510 | 0.510 |
 | CFIMDB | 0.984 | 0.984 |
+
+## Paraphrase detection
+
+Configuration: full-model fine-tuning of GPT-2 small, batch size `8`, learning rate `1e-5`, and `10` epochs on the Quora paraphrase dataset.
+
+| Dataset | Final checkpoint dev accuracy |
+|---|---:|
+| Quora | 0.897 |
+
+## Sonnet generation
+
+The generated sonnets in were evaluated against using CHRF.
+
+| Metric | Score |
+|---|---:|
+| CHRF | 56.6372 |

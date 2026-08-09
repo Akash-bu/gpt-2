@@ -42,7 +42,7 @@ def seed_everything(seed=11711):
 
 
 class SonnetGPT(nn.Module):
-  """Your GPT-2 Model designed for paraphrase detection."""
+  """Your GPT-2 Model designed for generating sonnets."""
 
   def __init__(self, args):
     super().__init__()
@@ -60,8 +60,10 @@ class SonnetGPT(nn.Module):
     not just the last token! This will allow our model to learn the natural language distribution that composes sonnets,
     not just the distribution over next tokens for the last token!
     """
-    ### YOUR CODE HERE
-    raise NotImplementedError
+    output = self.gpt(input_ids, attention_mask)
+    hidden_states = output["last_hidden_state"]  # [batch_size, seq_len, hidden_size]
+    logits = self.gpt.hidden_state_to_token(hidden_states)  # [batch_size, seq_len, vocab_size]
+    return logits
 
 
   def get_device(self):
@@ -99,8 +101,8 @@ class SonnetGPT(nn.Module):
       filtered_probs /= filtered_probs.sum(dim=-1, keepdim=True)  # Normalize probabilities
 
       # Sample from filtered distribution
-      sampled_index = torch.multinomial(filtered_probs, 1)
-      sampled_token = sorted_indices.gather(dim=-1, index=sampled_index)
+      sampled_index = torch.multinomial(filtered_probs, 1) #Randomly sample 1 index according to the probabilities in filtered_probs
+      sampled_token = sorted_indices.gather(dim=-1, index=sampled_index) #Get the actual token ID corresponding to the sampled index
 
       # Stop if end-of-sequence token is reached
       if sampled_token.item() == self.tokenizer.eos_token_id:
@@ -131,7 +133,7 @@ def save_model(model, optimizer, args, filepath):
 
 
 def train(args):
-  """Train GPT-2 for paraphrase detection on the Quora dataset."""
+  """Train GPT-2 for generating sonnets."""
   device = torch.device('cuda') if args.use_gpu else torch.device('cpu')
   # Create the data and its corresponding datasets and dataloader.
   sonnet_dataset = SonnetsDataset(args.sonnet_path)

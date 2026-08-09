@@ -32,3 +32,25 @@ Configuration: full-model fine-tuning, SST batch size `16`, CFIMDB batch size `8
 |---|---:|---:|
 | SST | 0.510 | 0.510 |
 | CFIMDB | 0.984 | 0.984 |
+
+## Paraphrase detection
+
+Command: `python3 paraphrase_detection.py --use_gpu`
+
+Configuration: full-model fine-tuning of GPT-2 small, batch size `8`, learning rate `1e-5`, and `10` epochs on the Quora paraphrase dataset.
+
+| Dataset | Final checkpoint dev accuracy |
+|---|---:|
+| Quora | 0.897 |
+
+The final evaluation loaded the best saved checkpoint, `10-1e-05-paraphrase.pt`.
+
+## Sonnet generation
+
+Command: `python -c "from evaluation import test_sonnet; print(test_sonnet())"`
+
+The generated sonnets in `predictions/generated_sonnets.txt` were evaluated against `data/TRUE_sonnets_held_out.txt`.
+
+| Metric | Score |
+|---|---:|
+| CHRF | 56.6372 |
